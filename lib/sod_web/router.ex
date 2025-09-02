@@ -15,6 +15,28 @@ defmodule SodWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_current_user
+  end
+
+  # Chrome Extension API routes
+  scope "/api/extension", SodWeb.API do
+    pipe_through [:api]
+
+    # Site endpoints
+    post "/sites", ExtensionController, :get_or_create_site
+
+    # Analysis endpoints
+    post "/analyze", ExtensionController, :analyze_site_content
+
+    # User preferences endpoints (require session token)
+    get "/preferences", ExtensionController, :get_user_preferences
+    put "/preferences", ExtensionController, :update_preferences
+
+    # Alerts endpoints (require session token)
+    get "/alerts/unread", ExtensionController, :get_unread_alerts
+    put "/alerts/:alert_id/read", ExtensionController, :mark_alert_read
+    put "/alerts/:alert_id/action", ExtensionController, :record_alert_action
   end
 
   scope "/", SodWeb do

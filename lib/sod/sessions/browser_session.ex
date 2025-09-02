@@ -28,3 +28,4 @@ defmodule Sod.Sessions.BrowserSession do
     |> unique_constraint(:session_token)
   end
 end
+

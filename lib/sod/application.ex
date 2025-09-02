@@ -17,7 +17,8 @@ defmodule Sod.Application do
       # Start a worker by calling: Sod.Worker.start_link(arg)
       # {Sod.Worker, arg},
       # Start to serve requests, typically the last entry
-      SodWeb.Endpoint
+      SodWeb.Endpoint,
+      Sod.BackgroundJobs.AiAnalyzer
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

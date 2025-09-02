@@ -1,1 +1,11 @@
 Now using langchain, We need to setup an AI system the gets this Term of serice and privacy policy as message and and then based on user preference and other paramiter determine the risk level of the site and state some potencialy dangarous or fishy clauses in the term pf service or pravacy policy if there is any, that the user might want to concidere before proccessing,now what we want is that this particular data when the AI as accessed it should be saved in the DB incase another user comes that want to use the same site we dont have to call the AI again except for crawling, this is important becuase Term of service and and privacy policy are usually always very long, sending those to AI all the time might eat up all the tokens, so what do you thnk is best for this cenerio, if you think the data base saving of term of service and policy of the site is what will work, I dont think we have a schema and migration and contect for that yet, What your IDea of things we can add to make this funtionaliy better or add more funtion to it.
+
+
+
+session_token, 
+browser_fingerprint, 
+user_agent, 
+ip_address, 
+extension_version, 
+is_active, 
+last_activity, 

@@ -14,6 +14,7 @@ defmodule Sod.Sites do
     Repo.all(Site)
   end
 
+  
   @doc """
   Gets a single site.
   """

@@ -28,6 +28,7 @@ defmodule Sod.Preference.UserPreference do
     field :allow_photos_access, :boolean, default: false
     field :allow_clipboard_reading, :boolean, default: false
     field :allow_keyboard_input_reading, :boolean, default: false
+    
 
     # 3. Personalization & Tracking
     field :allow_personalized_ads, :boolean, default: true

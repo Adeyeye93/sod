@@ -23,6 +23,7 @@ defmodule Sod.Ai.LangchainAnalyzer do
         {:ok, :cached, cached_result}
     end
   end
+  
 
   @doc """
   Analyzes content for specific user preferences.

@@ -25,6 +25,6 @@ defmodule Sod.Sites.Site do
     |> cast(attrs, [:domain, :name, :favicon_url, :tos_url, :privacy_policy_url, :last_crawled_at, :is_active])
     |> validate_required([:domain])
     |> unique_constraint(:domain)
-    |> validate_format(:domain, ~r/^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]?\.[a-zA-Z]{2,}$/)
+    # |> validate_format(:domain, ~r/^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]?\.[a-zA-Z]{2,}$/)
   end
 end

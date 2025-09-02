@@ -15,6 +15,12 @@ defmodule Sod.Accounts.User do
     field :is_active, :boolean, default: true
     field :subscription_tier, :string, default: "free"
 
+    has_one :user_preference, Sod.Preference.UserPreference
+    has_many :site_visits, Sod.Analytics.SiteVisit
+    has_many :risk_alerts, Sod.Alarts.RiskAlarts
+    has_many :browser_sessions, Sod.Sessions.BrowserSession
+
+
     timestamps(type: :utc_datetime)
   end
 
