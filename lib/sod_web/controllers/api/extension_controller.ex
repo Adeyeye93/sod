@@ -72,7 +72,7 @@ end
         conn
         |> put_status(:unauthorized)
 
-        json()
+        json(conn, %{error: "Invalid session token"})
         # |> render("error.json", error: "Invalid session token")
     end
   end
