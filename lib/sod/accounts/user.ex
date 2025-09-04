@@ -19,6 +19,7 @@ defmodule Sod.Accounts.User do
     has_many :site_visits, Sod.Analytics.SiteVisit
     has_many :risk_alerts, Sod.Alarts.RiskAlarts
     has_many :browser_sessions, Sod.Sessions.BrowserSession
+    
 
 
     timestamps(type: :utc_datetime)
@@ -49,7 +50,7 @@ defmodule Sod.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password, :subscription_tier, :is_active])
+    |> cast(attrs, [:email, :username, :password, :subscription_tier, :is_active])
     |> validate_email(opts)
     |> validate_password(opts)
   end

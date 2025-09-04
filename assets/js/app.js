@@ -22,6 +22,30 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
+// Check for auth data on page load
+document.addEventListener('DOMContentLoaded', function() {
+  const authMeta = document.querySelector('meta[name="auth-data"]');
+  if (authMeta) {
+    try {
+      const authData = JSON.parse(authMeta.content);
+      
+      // Send to Chrome extension
+      window.postMessage({
+        type: 'PHOENIX_AUTH_DATA',
+        data: {
+          ...authData,
+          last_check: new Date().toISOString()
+        }
+      }, '*');
+      
+      console.log('Auth data sent to extension:', authData);
+      authMeta.remove();
+    } catch (error) {
+      console.error('Failed to parse auth data:', error);
+    }
+  }
+});
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,

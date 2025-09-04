@@ -18,7 +18,20 @@ defmodule Sod.Application do
       # {Sod.Worker, arg},
       # Start to serve requests, typically the last entry
       SodWeb.Endpoint,
-      Sod.BackgroundJobs.AiAnalyzer
+      Sod.BackgroundJobs.AiAnalyzer,
+      # %{
+      #   id: SessionCleanupScheduler,
+      #   start: {
+      #     :timer,
+      #     :apply_interval,
+      #     [
+      #       24 * 60 * 60 * 1000, # 24 hours in milliseconds
+      #       Sod.BackgroundJobs.SessionCleanupWorker,
+      #       :schedule_cleanup,
+      #       [30] # Clean up sessions older than 30 days
+      #     ]
+      #   }
+      # }
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

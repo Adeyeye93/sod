@@ -4,6 +4,7 @@ defmodule SodWeb.UserRegistrationLive do
   alias Sod.Accounts
   alias Sod.Accounts.User
 
+
   def render(assigns) do
     ~H"""
     <div class="mx-auto max-w-sm">
@@ -31,7 +32,7 @@ defmodule SodWeb.UserRegistrationLive do
           Oops, something went wrong! Please check the errors below.
         </.error>
 
-        <.input field={@form[:username]} type="email" label="Email" required />
+        <.input field={@form[:username]} type="text" label="Username" required />
         <.input field={@form[:email]} type="email" label="Email" required />
         <.input field={@form[:password]} type="password" label="Password" required />
 
@@ -64,7 +65,8 @@ defmodule SodWeb.UserRegistrationLive do
           )
 
         changeset = Accounts.change_user_registration(user)
-        {:noreply, socket |> assign(trigger_submit: true) |> assign_form(changeset)}
+        {:noreply, socket |> assign(trigger_submit: true) |> assign_form(changeset)
+      }
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, socket |> assign(check_errors: true) |> assign_form(changeset)}

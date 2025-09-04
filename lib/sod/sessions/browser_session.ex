@@ -23,9 +23,8 @@ defmodule Sod.Sessions.BrowserSession do
 
   def changeset(browser_session, attrs) do
     browser_session
-    |> cast(attrs, [:session_token, :browser_fingerprint, :user_agent, :ip_address, :extension_version, :is_active, :last_activity])
+    |> cast(attrs, [:user_id, :session_token, :browser_fingerprint, :user_agent, :ip_address, :extension_version, :is_active, :last_activity])
     |> validate_required([:session_token, :browser_fingerprint])
     |> unique_constraint(:session_token)
   end
 end
-

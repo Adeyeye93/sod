@@ -33,11 +33,34 @@ defmodule SodWeb.Router do
     get "/preferences", ExtensionController, :get_user_preferences
     put "/preferences", ExtensionController, :update_preferences
 
+
     # Alerts endpoints (require session token)
     get "/alerts/unread", ExtensionController, :get_unread_alerts
     put "/alerts/:alert_id/read", ExtensionController, :mark_alert_read
     put "/alerts/:alert_id/action", ExtensionController, :record_alert_action
   end
+
+  # Extension API routes (require authentication)
+  scope "/api/extension", SodWeb.Api do
+    pipe_through [:api, :require_authenticated_user]
+
+    get "/is_authenticated" , BrowserSessionController, :is_authenticated
+    get "/auth_data", BrowserSessionController, :get_auth_data
+
+    # Browser session management
+    post "/sessions/validate", BrowserSessionController, :validate_or_create
+    get "/sessions/:session_token", BrowserSessionController, :show
+    patch "/sessions/:session_token/activity", BrowserSessionController, :update_activity
+    delete "/sessions/:session_token", BrowserSessionController, :deactivate
+    post "/sessions/:session_token/deactivate_others", BrowserSessionController, :deactivate_others
+    get "/sessions", BrowserSessionController, :index
+
+    # Your existing extension routes...
+    # post "/websites", WebsiteController, :create
+    # get "/websites/:domain", WebsiteController, :show
+    # etc.
+  end
+
 
   scope "/", SodWeb do
     pipe_through :browser
