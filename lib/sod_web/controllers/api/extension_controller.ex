@@ -20,6 +20,20 @@ defmodule SodWeb.API.ExtensionController do
   end
 end
 
+def site_available(conn, %{"domain" => domain}) do
+  case Sites.get_site_by_domain(domain) do
+    {:ok, site} ->
+      site =
+        site
+        |> Repo.preload([:site_risk_analysis, :site_visits, :tos_versions])
+        |> Map.from_struct()
+        |> Map.drop([:__meta__, :__struct__])
+      json(conn, site)
+    _ ->
+      json(conn, %{error: "Site not found"})
+  end
+end
+
 
   @doc """
   Analyzes TOS content for a specific site.

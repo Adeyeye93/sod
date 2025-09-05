@@ -11,17 +11,36 @@ defmodule SodWeb.Api.BrowserSessionController do
   def validate_or_create(conn, params) do
     user = conn.assigns.current_user
 
-    case Sessions.validate_or_create_browser_session(user.id, params) do
+    if user do
+      case Sessions.validate_or_create_browser_session(user.id, params) do
       {:ok, session} ->
         conn
         |> put_status(:ok)
-        |> render("session.json", session: session)
+        |> json(%{
+          authenticated: true,
+          session_token: session.session_token,
+          created_at: session.inserted_at,
+          last_activity: session.last_activity,
+          is_active: session.is_active,
+          user_agent: session.user_agent,
+          ip_address: session.ip_address,
+          extension_version: session.extension_version,
+          browser_fingerprint: session.browser_fingerprint,
 
-      {:error, changeset} ->
+        })
+
+      {:error, _} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render("error.json", changeset: changeset)
+        |> json(%{error: "Failed to validate or create session"})
     end
+    else
+      conn
+      |> put_status(:unauthorized)
+      |> json(%{authenticated: false})
+    end
+
+
   end
 
   # Get current session info
@@ -52,23 +71,26 @@ defmodule SodWeb.Api.BrowserSessionController do
           {:ok, updated_session} ->
             conn
             |> put_status(:ok)
-            |> render("session.json", session: updated_session)
+            |> json(%{
+              message: "Session activity updated",
+              last_activity: updated_session.last_activity
+              })
 
           {:error, changeset} ->
             conn
             |> put_status(:unprocessable_entity)
-            |> render("error.json", changeset: changeset)
+            |> json(%{error: "Failed to update session activity"})
         end
 
       %BrowserSession{} ->
         conn
         |> put_status(:forbidden)
-        |> render("error.json", error: "Session belongs to different user")
+        |> json(%{error: "Session belongs to different user"})
 
       nil ->
         conn
         |> put_status(:not_found)
-        |> render("error.json", error: "Session not found")
+        |> json(%{error: "Session not found"})
     end
   end
 
@@ -79,7 +101,7 @@ defmodule SodWeb.Api.BrowserSessionController do
 
     conn
     |> put_status(:ok)
-    |> render("sessions.json", sessions: sessions)
+    |> json(%{sessions: sessions})
   end
 
   # Deactivate a session

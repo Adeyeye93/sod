@@ -24,7 +24,8 @@ defmodule SodWeb.Router do
     pipe_through [:api]
 
     # Site endpoints
-    post "/sites", ExtensionController, :get_or_create_site
+    get "/sites/:domain/available", ExtensionController, :site_available
+    post "/sites/:domain", ExtensionController, :get_or_create_site
 
     # Analysis endpoints
     post "/analyze", ExtensionController, :analyze_site_content
@@ -42,7 +43,7 @@ defmodule SodWeb.Router do
 
   # Extension API routes (require authentication)
   scope "/api/extension", SodWeb.Api do
-    pipe_through [:api, :require_authenticated_user]
+    pipe_through [:api]
 
     get "/is_authenticated" , BrowserSessionController, :is_authenticated
     get "/auth_data", BrowserSessionController, :get_auth_data

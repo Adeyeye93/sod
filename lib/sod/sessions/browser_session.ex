@@ -25,6 +25,10 @@ defmodule Sod.Sessions.BrowserSession do
     browser_session
     |> cast(attrs, [:user_id, :session_token, :browser_fingerprint, :user_agent, :ip_address, :extension_version, :is_active, :last_activity])
     |> validate_required([:session_token, :browser_fingerprint])
+    |> validate_length(:session_token, max: 500)
+    |> validate_length(:user_agent, max: 1000)
+    |> validate_length(:ip_address, max: 45) # IPv6 addresses can be up to 45 chars
+    |> validate_length(:extension_version, max: 50)
     |> unique_constraint(:session_token)
   end
 end
