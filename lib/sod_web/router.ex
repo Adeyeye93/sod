@@ -69,10 +69,23 @@ defmodule SodWeb.Router do
     get "/", PageController, :home
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", SodWeb do
-  #   pipe_through :api
-  # end
+  # Scraper API routes
+  scope "/api/scraper", SodWeb.API do
+    pipe_through [:api]
+
+    # Manual scraping endpoints
+    post "/sites/:domain/scrape", ScraperController, :scrape_site
+    post "/sites/:domain/discover", ScraperController, :discover_urls
+    post "/sites/:domain/scrape_and_analyze", ScraperController, :scrape_and_analyze
+    post "/urls/analyze", ScraperController, :analyze_url
+    
+    # Content processing endpoints
+    post "/content/preprocess", ScraperController, :preprocess_content
+    
+    # Admin/monitoring endpoints
+    get "/stats", ScraperController, :get_scraping_stats
+    post "/background/trigger", ScraperController, :trigger_background_scraping
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:sod, :dev_routes) do

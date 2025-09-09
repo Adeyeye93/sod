@@ -37,9 +37,10 @@ end
 
   @doc """
   Analyzes TOS content for a specific site.
+  Content can be provided directly or will be scraped if domain is provided instead.
   Returns the analysis with personalized recommendations if session token is provided.
   """
-  def analyze_site_content(conn, %{"site_id" => site_id, "content" => content, "content_type" => content_type} = _params) do
+  def analyze_site_content(conn, %{"content" => content, "content_type" => content_type, "site_id" => site_id} = _params) do
     session_token = get_req_header(conn, "x-session-token")
 
     # Get user preferences if session token is provided

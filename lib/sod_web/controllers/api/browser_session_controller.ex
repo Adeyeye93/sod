@@ -76,7 +76,7 @@ defmodule SodWeb.Api.BrowserSessionController do
               last_activity: updated_session.last_activity
               })
 
-          {:error, changeset} ->
+          {:error, _} ->
             conn
             |> put_status(:unprocessable_entity)
             |> json(%{error: "Failed to update session activity"})
